@@ -9,6 +9,8 @@ class Articles extends BaseController
 {
     public function index()
     {
+        $db = db_connect();
+        $db->listTables();
 
         $data = [
             ['title' => 'One', 'content' => 'The first article'],
