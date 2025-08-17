@@ -38,4 +38,30 @@ class Articles extends BaseController
         return view('Articles/new');
     }
 
+    public function create(){
+
+        $rules = [
+            'title'   => 'required|min_length[5]',
+            'content' => 'required|min_length[10]',
+        ];
+
+        if (!$this->validate($rules)) {
+            // Redirect back with input and validation errors
+            return redirect()->back()
+                ->withInput()
+                ->with('validation', $this->validator);
+        }
+
+        $title = $this->request->getPost('title');
+        $content = $this->request->getPost('content');
+
+        $model = new ArticleModel();
+        $model->insert([
+            'title' => $title,
+            'content' => $content
+        ]);
+
+        return redirect()->to('/articles');
+    }
+
 }
