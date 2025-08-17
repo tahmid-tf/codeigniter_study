@@ -9,7 +9,9 @@
 <?php foreach ($articles as $article): ?>
     <article>
         <h2>
-            <?= $article['title'] ?>
+            <a href="<?= site_url('articles/' . $article['id']) ?>">
+                <?= $article['title'] ?>
+            </a>
         </h2>
         <p>
             <?= $article['content'] ?>
