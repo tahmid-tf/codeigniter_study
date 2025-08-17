@@ -60,7 +60,7 @@ class Articles extends BaseController
             'title' => $title,
             'content' => $content
         ]);
-
+        
         return redirect()->to('/articles');
     }
 
