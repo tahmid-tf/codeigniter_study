@@ -7,17 +7,19 @@
 
     <label for="title">Title</label>
     <input type="text" id="title" name="title" value="<?= old('title') ?>">
-    <?php if (session()->has('validation')): ?>
-        <small class="text-danger"><?= session('validation')->showError('title') ?></small>
+    <?php if (session('errors')): ?>
+        <?= session('errors')['title'] ?>
         <br>
     <?php endif; ?>
 
+
     <label for="content">Content</label>
     <textarea name="content" id="content" cols="30" rows="10"><?= old('content') ?></textarea>
-    <?php if (session()->has('validation')): ?>
-        <small class="text-danger"><?= session('validation')->showError('content') ?></small>
+    <?php if (session('errors')): ?>
+        <?= session('errors')['content'] ?>
         <br>
     <?php endif; ?>
+
     <button>Save</button>
 </form>
 

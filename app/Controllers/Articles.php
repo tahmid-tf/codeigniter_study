@@ -40,26 +40,35 @@ class Articles extends BaseController
 
     public function create(){
 
-        $rules = [
-            'title'   => 'required|min_length[5]',
-            'content' => 'required|min_length[10]',
-        ];
+        // --------------------------- validation ---------------------------
 
-        if (!$this->validate($rules)) {
-            // Redirect back with input and validation errors
-            return redirect()->back()
-                ->withInput()
-                ->with('validation', $this->validator);
-        }
+//        $rules = [
+//            'title'   => 'required|min_length[5]',
+//            'content' => 'required|min_length[10]',
+//        ];
+//
+//        if (!$this->validate($rules)) {
+//            // Redirect back with input and validation errors
+//            return redirect()->back()
+//                ->withInput()
+//                ->with('validation', $this->validator);
+//        }
+
+        // --------------------------- validation ---------------------------
+
 
         $title = $this->request->getPost('title');
         $content = $this->request->getPost('content');
 
         $model = new ArticleModel();
-        $model->insert([
+        $id = $model->insert([
             'title' => $title,
             'content' => $content
         ]);
+
+        if ($id === false){
+            return redirect()->back()->with('errors', $model->errors());
+        }
         
         return redirect()->to('/articles');
     }
