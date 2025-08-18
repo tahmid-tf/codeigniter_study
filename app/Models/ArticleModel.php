@@ -36,7 +36,15 @@ class ArticleModel extends Model
             'rules' => 'required',
         ]
     ];
-    protected $validationMessages = [];
+    protected $validationMessages = [
+        'title' => [
+            'required' => 'Title is required',
+            'min_length' => 'Title must be at least {param} characters',
+        ],
+        'content' => [
+            'required' => 'Content is required',
+        ]
+    ];
     protected $skipValidation = false;
     protected $cleanValidationRules = true;
 

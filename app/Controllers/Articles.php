@@ -34,11 +34,13 @@ class Articles extends BaseController
         ]);
     }
 
-    public function new(){
+    public function new()
+    {
         return view('Articles/new');
     }
 
-    public function create(){
+    public function create()
+    {
 
         // --------------------------- validation ---------------------------
 
@@ -57,8 +59,8 @@ class Articles extends BaseController
         // --------------------------- validation ---------------------------
 
 
-        $title = $this->request->getPost('title');
-        $content = $this->request->getPost('content');
+        $title = htmlspecialchars($this->request->getPost('title'));
+        $content = htmlspecialchars($this->request->getPost('content'));
 
         $model = new ArticleModel();
         $id = $model->insert([
@@ -66,11 +68,11 @@ class Articles extends BaseController
             'content' => $content
         ]);
 
-        if ($id === false){
-            return redirect()->back()->with('errors', $model->errors());
+        if ($id === false) {
+            return redirect()->back()->with('errors', $model->errors())->withInput();
         }
-        
-        return redirect()->to('/articles');
+
+        return redirect()->to(route_to('article_show', $id));
     }
 
 }

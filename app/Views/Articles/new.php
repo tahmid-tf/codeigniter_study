@@ -12,7 +12,6 @@
         <br>
     <?php endif; ?>
 
-
     <label for="content">Content</label>
     <textarea name="content" id="content" cols="30" rows="10"><?= old('content') ?></textarea>
     <?php if (session('errors')): ?>
