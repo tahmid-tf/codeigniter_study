@@ -18,6 +18,7 @@
         <p>
             <?= $article['content'] ?>
         </p>
+        <a href="<?= url_to('Articles::edit', $article['id']) ?>">Edit Article</a>
     </article>
 <?php endforeach ?>
 

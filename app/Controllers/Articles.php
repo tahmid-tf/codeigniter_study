@@ -75,4 +75,19 @@ class Articles extends BaseController
         return redirect()->to(route_to('article_show', $id));
     }
 
+    public function edit($id){
+
+        $db = db_connect();
+        $db->listTables();
+
+        $model = new ArticleModel();
+        $data = $model->find($id);
+        return view('Articles/edit', [
+            'article' => $data
+        ]);
+    }
+
+    public function update($id){
+        dd($id);
+    }
 }
