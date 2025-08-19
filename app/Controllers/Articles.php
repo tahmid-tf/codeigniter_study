@@ -88,6 +88,19 @@ class Articles extends BaseController
     }
 
     public function update($id){
-        dd($id);
+
+        $db = db_connect();
+        $db->listTables();
+
+        $model = new ArticleModel();
+        $title = htmlspecialchars($this->request->getPost('title'));
+        $content = htmlspecialchars($this->request->getPost('content'));
+
+        $model->update($id, [
+            'title' => $title,
+            'content' => $content
+        ]);
+
+        return redirect()->to(route_to('article_show', $id));
     }
 }
