@@ -6,16 +6,24 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ArticleModel;
 use App\Entities\Article;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Articles extends BaseController
 {
+
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new ArticleModel();
+    }
+
     public function index()
     {
         $db = db_connect();
         $db->listTables();
 
-        $model = new ArticleModel();
-        $data = $model->findAll();
+        $data = $this->model->findAll();
 
         return view('Articles/index', [
             'articles' => $data
@@ -27,8 +35,7 @@ class Articles extends BaseController
         $db = db_connect();
         $db->listTables();
 
-        $model = new ArticleModel();
-        $data = $model->find($id);
+        $data = $this->getArticleOr404($id);
 
         return view('Articles/show', [
             'article' => $data
@@ -50,11 +57,10 @@ class Articles extends BaseController
 
         $article = new Article($this->request->getPost()); // entity
 
-        $model = new ArticleModel();
-        $id = $model->insert($article);
+        $id = $this->model->insert($article);
 
         if ($id === false) {
-            return redirect()->back()->with('errors', $model->errors())->withInput();
+            return redirect()->back()->with('errors', $this->model->errors())->withInput();
         }
 
         return redirect()->to(route_to('article_show', $id));
@@ -65,11 +71,10 @@ class Articles extends BaseController
 
         $db = db_connect();
         $db->listTables();
+        $article = $this->getArticleOr404($id);
 
-        $model = new ArticleModel();
-        $data = $model->find($id);
         return view('Articles/edit', [
-            'article' => $data
+            'article' => $article
         ]);
     }
 
@@ -79,17 +84,40 @@ class Articles extends BaseController
         $db = db_connect();
         $db->listTables();
 
-        $model = new ArticleModel();              // Model instance
-        $article = $model->find($id);             // Entity instance
+        $article = $this->model->find($id);
 
         $article->fill($this->request->getPost());
 
         if ($article->hasChanged()) {
-            $model->save($article);                   // Save updated entity
+            $this->model->save($article);                   // Save updated entity
         }
 
-
         return redirect()->to(route_to('article_show', $id));
+    }
 
+    public function delete($id){
+        $db = db_connect();
+        $db->listTables();
+
+        $article = $this->getArticleOr404($id);
+
+        if ($this->request->getMethod() === 'POST') {
+            $this->model->delete($id);
+            return redirect()->to(route_to('article_index'));
+        }
+
+        return view('Articles/delete', [
+            'article' => $article
+        ]);
+    }
+
+    public function getArticleOr404(int $id)
+    {
+        $article = $this->model->find($id);
+        if (!$article) {
+            throw new PageNotFoundException("Article not found");
+        }
+
+        return $article;
     }
 }
