@@ -40,7 +40,7 @@ class Articles extends BaseController
 
         $article = new Article(); // entity
 
-        return view('Articles/new',[
+        return view('Articles/new', [
             'article' => $article
         ]);
     }
@@ -48,14 +48,10 @@ class Articles extends BaseController
     public function create()
     {
 
-        $title = htmlspecialchars($this->request->getPost('title'));
-        $content = htmlspecialchars($this->request->getPost('content'));
+        $article = new Article($this->request->getPost()); // entity
 
         $model = new ArticleModel();
-        $id = $model->insert([
-            'title' => $title,
-            'content' => $content
-        ]);
+        $id = $model->insert($article);
 
         if ($id === false) {
             return redirect()->back()->with('errors', $model->errors())->withInput();
@@ -64,7 +60,8 @@ class Articles extends BaseController
         return redirect()->to(route_to('article_show', $id));
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $db = db_connect();
         $db->listTables();
@@ -76,20 +73,23 @@ class Articles extends BaseController
         ]);
     }
 
-    public function update($id){
+    public function update($id)
+    {
 
         $db = db_connect();
         $db->listTables();
 
-        $model = new ArticleModel();
-        $title = htmlspecialchars($this->request->getPost('title'));
-        $content = htmlspecialchars($this->request->getPost('content'));
+        $model = new ArticleModel();              // Model instance
+        $article = $model->find($id);             // Entity instance
 
-        $model->update($id, [
-            'title' => $title,
-            'content' => $content
-        ]);
+        $article->fill($this->request->getPost());
+
+        if ($article->hasChanged()) {
+            $model->save($article);                   // Save updated entity
+        }
+
 
         return redirect()->to(route_to('article_show', $id));
+
     }
 }
