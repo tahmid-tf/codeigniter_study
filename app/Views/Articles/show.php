@@ -5,6 +5,6 @@
 <?= $this->section('content') ?>
 
 
-<a href="<?= base_url('/articles/edit/'.$article['id']) ?>"><h1><?= esc($article['title']) ?></h1></a>
-<p><?= esc($article['content']) ?></p>
+<a href="<?= base_url('/articles/edit/'.$article->id) ?>"><h1><?= esc($article->title) ?></h1></a>
+<p><?= esc($article->content) ?></p>
 <?= $this->endSection() ?>

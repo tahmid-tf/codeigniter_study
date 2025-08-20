@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\ArticleModel;
+use App\Entities\Article;
 
 class Articles extends BaseController
 {
@@ -36,28 +37,16 @@ class Articles extends BaseController
 
     public function new()
     {
-        return view('Articles/new');
+
+        $article = new Article(); // entity
+
+        return view('Articles/new',[
+            'article' => $article
+        ]);
     }
 
     public function create()
     {
-
-        // --------------------------- validation ---------------------------
-
-//        $rules = [
-//            'title'   => 'required|min_length[5]',
-//            'content' => 'required|min_length[10]',
-//        ];
-//
-//        if (!$this->validate($rules)) {
-//            // Redirect back with input and validation errors
-//            return redirect()->back()
-//                ->withInput()
-//                ->with('validation', $this->validator);
-//        }
-
-        // --------------------------- validation ---------------------------
-
 
         $title = htmlspecialchars($this->request->getPost('title'));
         $content = htmlspecialchars($this->request->getPost('content'));
