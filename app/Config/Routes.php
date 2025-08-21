@@ -7,18 +7,14 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $routes->get('/', 'Home::index');
-$routes->get('/articles', 'Articles::index', ['as' => 'article_index']);
 
-$routes->get('/articles/(:num)', 'Articles::show/$1', ['as' => 'article_show']);
-$routes->get('/articles/new', 'Articles::new', ['as' => 'article_new']);
-$routes->post('/articles/create', 'Articles::create');
+//$routes->get('/articles', 'Articles::index', ['as' => 'article_index']);
+//$routes->get('/articles/(:num)', 'Articles::show/$1', ['as' => 'article_show']);
+//$routes->get('/articles/new', 'Articles::new', ['as' => 'article_new']);
+//$routes->post('/articles', 'Articles::create');
+//$routes->get('/articles/(:num)/edit', 'Articles::edit/$1', ['as' => 'Articles/edit']);
+//$routes->patch('/articles/(:num)/update/', 'Articles::update/$1', ['as' => 'Articles/update']);
+$routes->get('/articles/(:num)/delete', 'Articles::confirmDelete/$1', ['as' => 'article_delete']);
+//$routes->delete('/articles/(:num)', 'Articles::delete/$1', ['as' => 'article_delete_data']);
 
-// --------------------- edit article ---------------------
-
-$routes->get('/articles/edit/(:num)', 'Articles::edit/$1', ['as' => 'Articles/edit']);
-$routes->post('/articles/update/(:num)', 'Articles::update/$1', ['as' => 'Articles/update']);
-
-// --------------------- delete article ---------------------
-
-$routes->match(['get', 'delete'], '/articles/delete/(:num)', 'Articles::delete/$1', ['as' => 'article_delete']);
-//$routes->match(['delete'],'/articles/delete/(:num)', 'Articles::delete/$1', ['as' => 'Articles/delete']);
+$routes->resource('articles',['placeholder' => '(:num)']);

@@ -68,7 +68,6 @@ class Articles extends BaseController
 
     public function edit($id)
     {
-
         $db = db_connect();
         $db->listTables();
         $article = $this->getArticleOr404($id);
@@ -80,35 +79,42 @@ class Articles extends BaseController
 
     public function update($id)
     {
-
-        $db = db_connect();
-        $db->listTables();
-
         $article = $this->model->find($id);
 
-        $article->fill($this->request->getPost());
+        if (! $article) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        // Get POST data, excluding the hidden _method field
+        $data = $this->request->getPost();
+        unset($data['_method']);
+
+        $article->fill($data);
 
         if ($article->hasChanged()) {
-            $this->model->save($article);                   // Save updated entity
+            $this->model->save($article);
         }
 
         return redirect()->to(route_to('article_show', $id));
+    }
+
+
+    public function confirmDelete($id)
+    {
+        $article = $this->getArticleOr404($id);
+        return view('Articles/delete', [
+            'article' => $article
+        ]);
+
     }
 
     public function delete($id)
     {
         $article = $this->getArticleOr404($id);
 
-        if ($this->request->is('DELETE')) {
             $this->model->delete($id);
             return redirect()->to(route_to('article_index'))
                 ->with('message', 'Article deleted successfully.');
-        }
-
-        // GET request → show confirmation page
-        return view('Articles/delete', [
-            'article' => $article
-        ]);
     }
 
 
