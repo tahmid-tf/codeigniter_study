@@ -95,21 +95,22 @@ class Articles extends BaseController
         return redirect()->to(route_to('article_show', $id));
     }
 
-    public function delete($id){
-        $db = db_connect();
-        $db->listTables();
-
+    public function delete($id)
+    {
         $article = $this->getArticleOr404($id);
 
-        if ($this->request->getMethod() === 'POST') {
+        if ($this->request->is('DELETE')) {
             $this->model->delete($id);
-            return redirect()->to(route_to('article_index'));
+            return redirect()->to(route_to('article_index'))
+                ->with('message', 'Article deleted successfully.');
         }
 
+        // GET request → show confirmation page
         return view('Articles/delete', [
             'article' => $article
         ]);
     }
+
 
     public function getArticleOr404(int $id)
     {

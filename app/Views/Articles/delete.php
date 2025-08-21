@@ -6,8 +6,11 @@
 <h1>Delete Article</h1>
 <p>Are you sure?</p>
 
-    <form action='<?= route_to('Articles/deleteData', $article->id) ?>' method='post' name='delete'>
-        <button>Yes</button>
+    <form action="<?= route_to('article_delete', $article->id) ?>" method="post">
+        <?= csrf_field() ?>
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit">Yes</button>
     </form>
+
 
 <?= $this->endSection() ?>
