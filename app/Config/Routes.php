@@ -18,3 +18,6 @@ $routes->get('/articles/(:num)/delete', 'Articles::confirmDelete/$1', ['as' => '
 //$routes->delete('/articles/(:num)', 'Articles::delete/$1', ['as' => 'article_delete_data']);
 
 $routes->resource('articles',['placeholder' => '(:num)']);
+
+// Load Shield's built-in routes
+service('auth')->routes($routes);
