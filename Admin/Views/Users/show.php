@@ -13,8 +13,13 @@
         <dd><?= esc($user->first_name) ?></dd>
 
         <dt>Created</dt>
-        <dd><?= esc($user->created_at) ?></dd>
+        <dd><?= esc($user->created_at->humanize()) ?></dd>
     </dl>
+
+
+    <form action="<?= route_to('user_ban', $user->id) ?>" method="post">
+        <button type="submit"><?= $user->isBanned() ? 'Unban' : 'Ban' ?></button>
+    </form>
 
 
 <?= $this->endSection() ?>

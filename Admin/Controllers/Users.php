@@ -21,6 +21,7 @@ class Users extends BaseController
 
     public function index()
     {
+        helper('admin');
         $perPage = 10; // Number of items per page
         $users = $this->model->orderBy('created_at')->paginate($perPage);
         $pager = $this->model->pager;
@@ -43,6 +44,23 @@ class Users extends BaseController
         return view('Admin\Views\Users\show', [
             'user' => $user
         ]);
+    }
+
+    public function ban($id)
+    {
+        $db = db_connect();
+        $db->listTables();
+
+        $user = $this->getUserOr404($id);
+
+        if ($user->isBanned()) {
+            $user->unBan();
+        }else{
+            $user->ban();
+            $user->ban('Your reason for banning the user here');
+        }
+
+        return redirect('admin/users');
     }
 
     public function getUserOr404(int $id)
