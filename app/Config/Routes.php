@@ -19,5 +19,12 @@ $routes->get('/articles/(:num)/delete', 'Articles::confirmDelete/$1', ['as' => '
 
 $routes->resource('articles',['placeholder' => '(:num)']);
 
+// --------------------------- set password
+
+$routes->group('', ['filter' => 'session'], static function ($routes) {
+    $routes->get('set-password', 'Password::set');
+    $routes->post('set-password', 'Password::update');
+});
+
 // Load Shield's built-in routes
 service('auth')->routes($routes);

@@ -7,6 +7,7 @@
 <h1>Welcome</h1>
 
 <?php if (auth()->loggedIn()): ?>
+        <p>Username : <?php echo(auth()->user()->email) ?></p>
         <a href="<?= route_to('logout') ?>">Logout</a>
 <?php else: ?>
     <a href="<?= route_to('login') ?>">Login</a>
