@@ -10,3 +10,4 @@ use Admin\Controllers\Users;
  */
 
 $routes->get('/admin/users', [Users::class , 'index']);
+$routes->get('/admin/users/(:num)/show', [Users::class , 'show']);

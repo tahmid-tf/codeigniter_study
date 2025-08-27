@@ -33,10 +33,12 @@ class Users extends BaseController
 
     public function show($id)
     {
+
         $db = db_connect();
         $db->listTables();
 
         $user = $this->getUserOr404($id);
+
 
         return view('Admin\Views\Users\show', [
             'user' => $user
