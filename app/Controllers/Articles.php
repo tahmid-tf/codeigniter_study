@@ -45,11 +45,17 @@ class Articles extends BaseController
     public function new()
     {
 
-        $article = new Article(); // entity
+        if (auth()->loggedIn()){
+            $article = new Article(); // entity
 
-        return view('Articles/new', [
-            'article' => $article
-        ]);
+            return view('Articles/new', [
+                'article' => $article
+            ]);
+        }else{
+            return redirect()->route('login')->with('message','Please log in first');
+        }
+
+
     }
 
     public function create()

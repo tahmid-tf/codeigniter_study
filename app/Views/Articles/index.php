@@ -1,4 +1,4 @@
-<?= $this->extend("header") ?> ?>
+<?= $this->extend("layouts/default.php") ?> ?>
 
 <?= $this->section("title") ?>Articles<?= $this->endSection() ?>
 
