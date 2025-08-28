@@ -20,6 +20,16 @@ $routes->get('/', 'Home::index');
 //$routes->delete('/articles/(:num)', 'Articles::delete/$1', ['as' => 'article_delete_data']);
 
 
+// --------------- user group test ---------------
+
+$routes->get('/td', static function (){
+    $user = new \App\Models\UserModel();
+    $user_d = $user->findById(5);
+//    $user_d->addGroup("developer");
+//    $user_d->syncGroups("developer");
+
+});
+
 $routes->group('', ['filter' => 'session'], static function ($routes) {
     $routes->get('/articles/(:num)/delete', 'Articles::confirmDelete/$1', ['as' => 'article_delete']);
     $routes->resource('articles', ['placeholder' => '(:num)']);
