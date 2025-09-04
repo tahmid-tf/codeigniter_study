@@ -38,6 +38,8 @@ $routes->group('', ['filter' => 'group:admin'], static function ($routes) {
     $routes->get('set-password', 'Password::set');
     $routes->post('set-password', 'Password::update');
 
+    $routes->get('users/(:num)/groups', [\Admin\Controllers\Users::class,'groups'], ['as' => 'user_groups']);
+
 });
 
 

@@ -16,7 +16,11 @@
         <dd><?= esc($user->created_at->humanize()) ?></dd>
 
         <dt>Groups</dt>
-        <p><?= 'User logged in as: ' . ucfirst(implode(', ', auth()->user()->getGroups())) ?></p>
+        <dd>
+            <p><?= 'User logged in as: ' . ucfirst(implode(', ', auth()->user()->getGroups())) ?></p>
+            <a href="<?= route_to("user_groups", $user->id) ?>">Edit</a>
+        </dd>
+
     </dl>
 
 

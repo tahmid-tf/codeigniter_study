@@ -63,6 +63,17 @@ class Users extends BaseController
         return redirect('admin/users');
     }
 
+    public function groups($id){
+        $db = db_connect();
+        $db->listTables();
+
+        $user = $this->getUserOr404($id);
+        return view('Admin\Views\Users\groups', [
+            'user' => $user
+        ]);
+
+    }
+
     public function getUserOr404(int $id)
     {
         $user = $this->model->find($id);
