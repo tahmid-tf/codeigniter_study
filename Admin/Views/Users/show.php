@@ -14,6 +14,9 @@
 
         <dt>Created</dt>
         <dd><?= esc($user->created_at->humanize()) ?></dd>
+
+        <dt>Groups</dt>
+        <p><?= 'User logged in as: ' . ucfirst(implode(', ', auth()->user()->getGroups())) ?></p>
     </dl>
 
 

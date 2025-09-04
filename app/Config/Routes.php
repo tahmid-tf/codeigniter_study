@@ -22,15 +22,16 @@ $routes->get('/', 'Home::index');
 
 // --------------- user group test ---------------
 
-$routes->get('/td', static function (){
+$routes->get('/td', static function () {
     $user = new \App\Models\UserModel();
-    $user_d = $user->findById(5);
+    $user_d = $user->findById(auth()->user()->id);
 //    $user_d->addGroup("developer");
-//    $user_d->syncGroups("developer");
+    $user_d->syncGroups("admin","user");
 
 });
 
-$routes->group('', ['filter' => 'session'], static function ($routes) {
+$routes->group('', ['filter' => 'group:admin'], static function ($routes) {
+
     $routes->get('/articles/(:num)/delete', 'Articles::confirmDelete/$1', ['as' => 'article_delete']);
     $routes->resource('articles', ['placeholder' => '(:num)']);
 
@@ -38,6 +39,7 @@ $routes->group('', ['filter' => 'session'], static function ($routes) {
     $routes->post('set-password', 'Password::update');
 
 });
+
 
 // Load Shield's built-in routes
 service('auth')->routes($routes);

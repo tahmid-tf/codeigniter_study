@@ -32,6 +32,10 @@
     <p><?= session('message') ?></p>
 <?php endif; ?>
 
+<?php if (session()->has('error')): ?>
+    <p><?= session('error') ?></p>
+<?php endif ?>
+
 <?= $this->renderSection('content') ?>
 </body>
 </html>
